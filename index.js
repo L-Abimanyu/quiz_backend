@@ -19,6 +19,11 @@ const io = socketIo(server, {
 });
 
 
+
+app.get('/' , async(req, res)=>{
+  res.json('deployed')
+})
+
 // databse connection
 mongoose
   .connect(
@@ -35,6 +40,6 @@ app.use("/api", roomRoutes);
 // Socket.io logic
 require("./controllers/game")(io);
 
-server.listen(8000, () => {
+server.listen(7000, () => {
   console.log("Server is running on port 8000");
 });
