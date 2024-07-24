@@ -40,6 +40,6 @@ app.use("/api", roomRoutes);
 // Socket.io logic
 require("./controllers/game")(io);
 
-server.listen(7000, () => {
+server.listen(8000, () => {
   console.log("Server is running on port 8000");
 });
