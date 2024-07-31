@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 
 const corsOptions = {
-  origin: "https://quiz-frontend-2qv5.onrender.com",
+  origin: "https://charming-cajeta-b548b5.netlify.app",
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
