@@ -7,6 +7,9 @@ require("dotenv").config();
 
 const roomRoutes = require("./route/room");
 
+const PORT = process.env.PORT || 7000;
+const MONGO_URL = process.env.MONGO_URL;
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -18,18 +21,14 @@ const io = socketIo(server, {
   },
 });
 
-
-
-app.get('/' , async(req, res)=>{
-  res.json('deployed')
-})
+app.get("/", async (req, res) => {
+  res.json("deployed");
+});
 
 // databse connection
 mongoose
-  .connect(
-    "mongodb+srv://AbiManyu:nqH5mc2slsy2WEOg@cluster0.ceq9y2l.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
-  .then(() => console.log("Databse connected Successfully"))
+  .connect(MONGO_URL)
+  .then(() => console.log("Database connected Successfully"))
   .catch((err) => console.log(err));
 
 // Middleware
@@ -40,6 +39,6 @@ app.use("/api", roomRoutes);
 // Socket.io logic
 require("./controllers/game")(io);
 
-server.listen(8000, () => {
-  console.log("Server is running on port 8000");
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
