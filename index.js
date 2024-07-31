@@ -12,32 +12,43 @@ const MONGO_URL = process.env.MONGO_URL;
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  },
-});
+
+
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
 
 app.get("/", async (req, res) => {
   res.json("deployed");
 });
 
-// databse connection
-mongoose
-  .connect(MONGO_URL)
-  .then(() => console.log("Database connected Successfully"))
-  .catch((err) => console.log(err));
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 app.use("/api", roomRoutes);
 
+
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Resource not found" });
+});
+
+// Database connection
+mongoose
+  .connect(MONGO_URL)
+  .then(() => console.log("Database connected successfully"))
+  .catch((err) => console.error("Database connection error:", err));
+
 // Socket.io logic
+const io = socketIo(server, {
+  cors: corsOptions,
+});
+
 require("./controllers/game")(io);
+
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

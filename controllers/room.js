@@ -10,7 +10,7 @@ exports.createRoom = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-};
+};  
 
 exports.joinRoom = async (req, res) => {
   try {
