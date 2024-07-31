@@ -13,7 +13,6 @@ const MONGO_URL = process.env.MONGO_URL;
 const app = express();
 const server = http.createServer(app);
 
-
 const corsOptions = {
   origin: "*",
   methods: ["GET", "POST"],
@@ -21,16 +20,17 @@ const corsOptions = {
   credentials: true,
 };
 
+// CORS middleware for Express
 app.use(cors(corsOptions));
 app.use(express.json());
 
-
-app.get("/", async (req, res) => {
+// Test endpoint
+app.get("/", (req, res) => {
   res.json("deployed");
 });
 
+// Room routes
 app.use("/api", roomRoutes);
-
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Resource not found" });
@@ -49,7 +49,7 @@ const io = socketIo(server, {
 
 require("./controllers/game")(io);
 
-
+// Start the server
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

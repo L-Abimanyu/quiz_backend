@@ -6,7 +6,7 @@ exports.createRoom = async (req, res) => {
     const roomId = uuidv4();
     const newRoom = new Room({ roomId, users: [], state: "waiting" });
     await newRoom.save();
-    res.status.json(201).json({ roomId });
+   res.status(200).json(newRoom)
   } catch (error) {
     console.log(error);
   }
