@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://unrivaled-madeleine-12e2f5.netlify.app/",
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
