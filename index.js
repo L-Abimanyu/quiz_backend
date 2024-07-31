@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 
 const corsOptions = {
-  origin: "https://charming-cajeta-b548b5.netlify.app",
+  origin: "https://66a9fc0c7dbfe4954ffb8e17--phenomenal-pithivier-fbef92.netlify.app",
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
