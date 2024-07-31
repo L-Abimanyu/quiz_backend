@@ -7,10 +7,16 @@ const questions = [
   { question: "What is the capital of India?", answer: "newdelhi" },
   { question: "Name the National bird of India ?", answer: "peacock" },
   { question: "Name the National animal of India ?", answer: "tiger" },
-  { question: "Which festival in India is called the festival of colours ?", answer: "holi" },
+  {
+    question: "Which festival in India is called the festival of colours ?",
+    answer: "holi",
+  },
   { question: "What does CPU stand for?", answer: "Central Processing Unit" },
-  { question: "Which programming language is known as the language of the web ?", answer: "javascript" },
-  
+  {
+    question:
+      "Which programming language is known as the language of the web ?",
+    answer: "javascript",
+  },
 ];
 
 function getRandomQuestions() {
@@ -26,6 +32,13 @@ module.exports = (io) => {
     });
 
     socket.on("createRoom", async (name) => {
+      const existingRoom = await Room.findOne({ users: name });
+
+      if (existingRoom) {
+        socket.emit("errorName", "This name is already taken.");
+        return;
+      }
+
       const roomId = uuidv4();
       const newRoom = new Room({
         roomId,
@@ -51,8 +64,6 @@ module.exports = (io) => {
           socket.emit("errorName", "This name is already taken.");
           return;
         }
-
-
 
         if (roomId) {
           const room = await Room.findOne({ roomId, state: "waiting" });
@@ -128,7 +139,8 @@ module.exports = (io) => {
             },
             $inc: {
               [`scores.${name}`]:
-                currentQuestion.answer.toLowerCase()?.trim()=== answer.toLowerCase()?.trim()
+                currentQuestion.answer.toLowerCase()?.trim() ===
+                answer.toLowerCase()?.trim()
                   ? 10
                   : 0,
             },
@@ -158,7 +170,6 @@ module.exports = (io) => {
         io.emit("availableRooms", rooms);
       });
     });
-
 
     async function sendNextQuestion(roomId) {
       console.log(roomId);
